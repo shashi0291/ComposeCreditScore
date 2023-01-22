@@ -24,18 +24,15 @@ class RotationDemo : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeRotationDemo()
-            ComposeButton()
         }
     }
 }
 
-data class CreditScoreState(var creditScore: Float)
-
 @Composable
 fun ComposeRotationDemo() {
 
-    val score by remember {
-        mutableStateOf(CreditScoreState(0f))
+    var score by remember {
+        mutableStateOf(0f)
     }
 
     Box(
@@ -45,7 +42,7 @@ fun ComposeRotationDemo() {
             .background(color = Color.Black)
     ) {
         val angle: Float by animateFloatAsState(
-            targetValue = score.creditScore.absoluteValue,
+            targetValue = score,
             animationSpec = tween(
                 durationMillis = 1000,
                 easing = LinearEasing
@@ -73,11 +70,6 @@ fun ComposeRotationDemo() {
         }
     }
 
-    score.creditScore = 0f
-}
-
-@Composable
-fun ComposeButton() {
     Row(
         Modifier
             .fillMaxWidth()
@@ -88,16 +80,16 @@ fun ComposeButton() {
     ) {
         Button(
             onClick = {
-
+                score = 0f
             },
 
-        ) {
+            ) {
             Text(text = "Reset")
         }
 
         Button(
             onClick = {
-
+                score = 1000f
             },
         ) {
             Text(text = "Animate")
